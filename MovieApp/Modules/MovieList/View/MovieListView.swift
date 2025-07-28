@@ -12,27 +12,15 @@ struct MovieListView: View {
     
     var body: some View {
         NavigationView {
-            List(presenter.movies) { movie in
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(movie.title)
-                        .font(.headline)
-                    Text(movie.overview)
-                        .font(.subheadline)
-                        .lineLimit(3)
+            ErrorAlertWrapper(errorMessage: $presenter.errorMessage) {
+                List(presenter.movies) { movie in
+                    MovieRowView(movie: movie)
                 }
-                .padding(.vertical, 8)
+                .navigationTitle("Popular Movies")
             }
-            .navigationTitle("Popular Movies")
         }
         .onAppear {
             presenter.onAppear()
         }
-        .alert(item: $presenter.errorMessage) { msg in
-            Alert(title: Text("Error"), message: Text(msg), dismissButton: .default(Text("OK")))
-        }
     }
-}
-
-extension String: @retroactive Identifiable {
-    public var id: String { self }
 }

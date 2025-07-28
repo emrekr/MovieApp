@@ -31,4 +31,8 @@ struct Movie: Decodable, Identifiable {
         case posterPath = "poster_path"
         case releaseDate = "release_date"
     }
+    
+    var posterURL: URL? {
+        ImageConfigurationManager.shared.makePosterURL(path: posterPath)
+    }
 }
