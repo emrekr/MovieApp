@@ -17,7 +17,7 @@ final class MovieListInteractor: MovieListInteractorProtocol {
     
     private var currentPage = 1
     private var totalPages = 1
-    private var isLoading = false
+    var isLoading = false
     
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
