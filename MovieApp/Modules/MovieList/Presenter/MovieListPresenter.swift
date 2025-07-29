@@ -46,4 +46,8 @@ final class MovieListPresenter: ObservableObject, MovieListPresenterProtocol {
     func loadMoreMovies() {
         interactor.fetchPopularMovies(reset: false)
     }
+    
+    func resetMovies() {
+        interactor.fetchPopularMovies(reset: true)
+    }
 }

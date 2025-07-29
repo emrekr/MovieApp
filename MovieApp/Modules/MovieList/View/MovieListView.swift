@@ -21,6 +21,8 @@ struct MovieListView: View {
                                 presenter.loadMoreMovies()
                             }
                         }
+                }.refreshable {
+                    presenter.resetMovies()
                 }
                 .navigationTitle("Popular Movies")
                 .testIdentifier(AccessibilityIdentifiers.MovieList.list)
