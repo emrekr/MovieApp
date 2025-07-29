@@ -15,10 +15,12 @@ struct MovieListView: View {
             ErrorAlertWrapper(errorMessage: $presenter.errorMessage) {
                 List(presenter.movies) { movie in
                     MovieRowView(movie: movie)
+                        .testIdentifier(AccessibilityIdentifiers.MovieList.row)
                 }
-                .navigationTitle("Popular Movies")
+                .testIdentifier(AccessibilityIdentifiers.MovieList.list)
             }
         }
+        .navigationViewStyle(.stack)
         .onAppear {
             presenter.onAppear()
         }

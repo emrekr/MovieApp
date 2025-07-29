@@ -8,36 +8,47 @@
 import XCTest
 
 final class MovieAppUITests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
-        continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    
+    func test_movieListAppearsOnLaunch() {
         let app = XCUIApplication()
         app.launch()
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+        let movieList = app.collectionViews[AccessibilityIdentifiers.MovieList.list]
+        let exists = movieList.waitForExistence(timeout: 5)
 
-    @MainActor
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+        XCTAssertTrue(exists, "Movie list should be visible on launch")
+    }
+    
+    func test_movieRowContainsTitleOverviewAndPoster() {
+        let app = XCUIApplication()
+        app.launch()
+
+        let firstRow = app.collectionViews.otherElements[AccessibilityIdentifiers.MovieList.row].firstMatch
+        XCTAssertTrue(firstRow.waitForExistence(timeout: 5), "First movie row should exist")
+
+        let title = firstRow.staticTexts[AccessibilityIdentifiers.MovieList.title]
+        XCTAssertTrue(title.exists, "Movie title should be visible")
+
+        let overview = firstRow.staticTexts[AccessibilityIdentifiers.MovieList.overview]
+        XCTAssertTrue(overview.exists, "Movie overview should be visible")
+
+        let poster = firstRow.images[AccessibilityIdentifiers.MovieList.poster]
+        XCTAssertTrue(poster.exists, "Movie poster should be visible")
+    }
+    
+    func test_scrollLoadsMoreMovies() {
+        let app = XCUIApplication()
+        app.launch()
+
+        let movieList = app.collectionViews[AccessibilityIdentifiers.MovieList.list]
+        XCTAssertTrue(movieList.waitForExistence(timeout: 5), "Movie list should exist")
+
+        let firstMovieTitle = movieList.staticTexts[AccessibilityIdentifiers.MovieList.title].firstMatch.label
+
+        movieList.swipeUp()
+        movieList.swipeUp()
+
+        let newMovieTitle = movieList.staticTexts[AccessibilityIdentifiers.MovieList.title].firstMatch.label
+        XCTAssertNotEqual(firstMovieTitle, newMovieTitle, "After scroll, a different movie should appear at the top")
     }
 }

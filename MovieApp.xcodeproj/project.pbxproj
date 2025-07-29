@@ -29,9 +29,22 @@
 		AFCF652C2E376D6600B2D066 /* MovieAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AF88FE6A2E38DBB100F7AB6D /* Exceptions for "MovieApp" folder in "MovieAppUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Core/Utilities/AccessibilityIdentifiers.swift,
+			);
+			target = AFCF652B2E376D6600B2D066 /* MovieAppUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AFCF65142E376D6400B2D066 /* MovieApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AF88FE6A2E38DBB100F7AB6D /* Exceptions for "MovieApp" folder in "MovieAppUITests" target */,
+			);
 			path = MovieApp;
 			sourceTree = "<group>";
 		};
