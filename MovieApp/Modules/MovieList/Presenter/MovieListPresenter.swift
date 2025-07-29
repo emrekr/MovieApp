@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol MovieListPresenterProtocol: AnyObject {
-    func didFetchedMovies(_ movies: [Movie])
+    func didFetchedMovies(_ movies: [Movie], reset: Bool)
     func didFailFetchingMovies(_ error: Error)
 }
 
@@ -24,12 +24,16 @@ final class MovieListPresenter: ObservableObject, MovieListPresenterProtocol {
     }
     
     func onAppear() {
-        interactor.fetchPopularMovies()
+        interactor.fetchPopularMovies(reset: false)
     }
     
-    func didFetchedMovies(_ movies: [Movie]) {
+    func didFetchedMovies(_ movies: [Movie], reset: Bool) {
         DispatchQueue.main.async {
-            self.movies = movies
+            if reset {
+                self.movies = movies
+            } else {
+                self.movies.append(contentsOf: movies)
+            }
         }
     }
     
@@ -37,5 +41,9 @@ final class MovieListPresenter: ObservableObject, MovieListPresenterProtocol {
         DispatchQueue.main.async {
             self.errorMessage = error.localizedDescription
         }
+    }
+    
+    func loadMoreMovies() {
+        interactor.fetchPopularMovies(reset: false)
     }
 }

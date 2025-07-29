@@ -16,7 +16,13 @@ struct MovieListView: View {
                 List(presenter.movies) { movie in
                     MovieRowView(movie: movie)
                         .testIdentifier(AccessibilityIdentifiers.MovieList.row)
+                        .onAppear {
+                            if movie.id == presenter.movies.last?.id {
+                                presenter.loadMoreMovies()
+                            }
+                        }
                 }
+                .navigationTitle("Popular Movies")
                 .testIdentifier(AccessibilityIdentifiers.MovieList.list)
             }
         }
