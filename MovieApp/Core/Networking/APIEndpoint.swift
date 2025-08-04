@@ -9,11 +9,14 @@ import Foundation
 
 enum APIEndpoint {
     case popularMovies(page: Int)
+    case movieDetail(id: String)
     
     var path: String {
         switch self {
         case .popularMovies:
             return "/3/movie/popular"
+        case .movieDetail(let id):
+            return "/3/movie/\(id)"
         }
     }
     
@@ -24,6 +27,8 @@ enum APIEndpoint {
                 URLQueryItem(name: "page", value: String(page)),
                 URLQueryItem(name: "language", value: "en-US")
             ]
+        case .movieDetail:
+            return [URLQueryItem(name: "language", value: "en-US")]
         }
     }
 }

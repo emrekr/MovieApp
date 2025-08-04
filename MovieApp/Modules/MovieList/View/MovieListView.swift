@@ -14,13 +14,15 @@ struct MovieListView: View {
         NavigationView {
             ErrorAlertWrapper(errorMessage: $presenter.errorMessage) {
                 List(presenter.movies) { movie in
-                    MovieRowView(movie: movie)
-                        .testIdentifier(AccessibilityIdentifiers.MovieList.row)
-                        .onAppear {
-                            if movie.id == presenter.movies.last?.id {
-                                presenter.loadMoreMovies()
+                    NavigationLink(destination: MovieDetailRouter.createModule(movieId: movie.id)) {
+                        MovieRowView(movie: movie)
+                            .testIdentifier(AccessibilityIdentifiers.MovieList.row)
+                            .onAppear {
+                                if movie.id == presenter.movies.last?.id {
+                                    presenter.loadMoreMovies()
+                                }
                             }
-                        }
+                    }
                 }.refreshable {
                     presenter.resetMovies()
                 }
